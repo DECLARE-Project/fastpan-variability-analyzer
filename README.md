@@ -5,7 +5,9 @@
 [![Coverage](https://img.shields.io/codecov/c/github/DECLARE-Project/fastpan-variability-analyzer.svg?maxAge=30)](https://codecov.io/gh/DECLARE-Project/fastpan-variability-analyzer)
 [![license](https://img.shields.io/github/license/DECLARE-Project/fastpan-variability-analyzer.svg?maxAge=30)](LICENSE)
 
-Performance analysis for software product lines.
+This project provides variability-aware performance analyzer implementations integrated with the [fastpan project](https://github.com/DECLARE-Project/fastpan) performance analyzer project.
+
+
 
 > **Attention:** This project is a work in progress and as such, the API is unstable and may change anytime. For recent changes refer to the change log.
 
@@ -22,8 +24,39 @@ You may export this project as standalone JAR library including all required dep
 
 ## Usage
 
-TBD
+### DecisionTreeAnalyzer
 
+The decision tree analyzer is an implementation of the approach described by Guo et al, 2013:
+
+> GUO, Jianmei, et al. Variability-aware performance prediction: A statistical learning approach. 
+> In: Automated Software Engineering (ASE), 2013 IEEE/ACM 28th International Conference on. IEEE, 2013. S. 301-311.
+>
+> [[View Paper](http://gsd.uwaterloo.ca/sites/default/files/ase2013cpm.pdf)]
+
+You can easily implement an analysis using the `DecisionTreeAnalyzer` as follows:
+
+```java
+PerformanceAnalyzer<> delegateAnalyzer;
+JavaSparkContext sparkContext;
+
+// the decision tree is built using a single score, thus we'll need to define an 
+// objective that is able to provide an answer to the question we have
+DecisionTreeObjective objective = (result) -> {
+    return result.<ServiceTime>getMetric("modelElement", ServiceTime.class)
+        .map(serviceTime -> serviceTime.getServiceTime().getMilliseconds());
+};
+
+// analyze
+DecisionTreeAnalyzer analyzer = new DecisionTreeAnalyzer(delegateAnalyzer, objective, sparkContext);
+DecisionTreeContext ctx = analyzer.setupAnalysis(systemProvider, configurationProvider);
+ctx.analyze();
+
+// use analysis results to predict unseen configurations
+Map<Configuration<FEATURE>, Double> predictions = ctx.predict(configurationProvider);
+
+// access the model directly
+ctx.getModel();
+```
 
 ## Release
 

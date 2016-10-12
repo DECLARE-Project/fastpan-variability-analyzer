@@ -86,6 +86,9 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
         return Vectors.dense(vector);
     }
 
+    /**
+     * Access the {@link DecisionTreeModel} built during the analysis.
+     */
     public DecisionTreeModel getModel() {
         assert null != this.model;
         return this.model;
@@ -97,6 +100,8 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
      * The returned map associates a performance score to each configuration.
      */
     public Map<Configuration<FEATURE>, Double> predict(final ConfigurationProvider<FEATURE> configurations) {
+        assert null != this.model;
+
         final ArrayList<Configuration<FEATURE>> configs = new ArrayList<>();
         // generate prediction input from feature configuration
         final List<Vector> predictionInputs = new ArrayList<>();
