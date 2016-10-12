@@ -11,7 +11,8 @@
     <url>https://github.com/DECLARE-Project/fastpan-variability-analyzer</url>
 
     <scm>
-        <developerConnection>scm:git:git@github.com:DECLARE-Project/fastpan-variability-analyzer.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:DECLARE-Project/fastpan-variability-analyzer.git
+        </developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -25,6 +26,11 @@
 
     <dependencies>
         <!-- functional dependencies -->
+        <dependency>
+            <groupId>com.github.DECLARE-Project</groupId>
+            <artifactId>fastpan</artifactId>
+            <version>v0.0.3-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.10</artifactId>
@@ -88,4 +94,11 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 </project>
