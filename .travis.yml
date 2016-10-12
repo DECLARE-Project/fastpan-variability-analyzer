@@ -1,0 +1,25 @@
+language: java
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - $HOME/.m2
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+
+# deploy to github releases
+before_deploy:
+- ls
+- export FASTPAN_FILE=$(ls target/*.jar)
+- echo "Deploying the following files to GitHub releases "
+- echo "- $FASTPAN_FILE"
+deploy:
+  provider: releases
+  api_key:
+    secure: esUZEExK03Jd7oPT/WPsNDJWFeEHu/vpdhaQSdYiVUVQm5iDdsrxPY4oqQbo9mHItMUxb1BUSp+fMxgQNpFKP6TJkmjNv8UKpwrh8v8IUBSbaA1BGmSzUNxDygaQEgyxXpOrsb0043ek9eb9PBgAf8B4MAUdOleqF5UL3iOOKkSz04KNktderiHVhIBznt9je/NkIpMLhANYYWL2dM7xdOuOskZYxvogRhSjXgZVcBRdLBM2TeAgKJJnY/jelARswLApHpgPWui2dTY8mIlCaQGQz5Dg97orOoAle5G+FEHt95m82Je69DE5ndano0CVmc4/OXL+mt8pBkEyMSDKnq3cjhfUItwXynYV5Bj7AGYE9EO101BxqV2ZIreuQTg4WIyVnWnTLm08HdZ6Z+i+vETawYBzI6RyH4IAAfRQrik+iGCcXRvwKK7qviafj9PahH1PH+CKJN9mqf152ypIQuPdiRsFc9fKUatFnY5hWBqiXTN03cKnItGx+KhakvGK85sL0f/9ogitLWFAoV39QECLiyO8YazmLYAb/HsTyvVBsQHjjxxCOko+IwISkBlkTEyMCx43czb1UeVhNY3Q46V8xzPdlZBrwQb6zHVQvnjIsHYu2qKvxqBic0Lh5mnw7AUDm9EnqxpOT6JVEJFd6S+p7yyT/iJGqs/H9kDuCHM=
+  file:
+    - "${FASTPAN_FILE}"
+  skip_cleanup: true
+  on:
+    repo: DECLARE-Project/fastpan-variability-analyzer
+    tags: true
