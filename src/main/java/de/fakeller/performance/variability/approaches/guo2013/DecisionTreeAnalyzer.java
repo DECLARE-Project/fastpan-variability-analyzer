@@ -1,4 +1,4 @@
-package de.fakeller.performance.variability.approaches.guo2012;
+package de.fakeller.performance.variability.approaches.guo2013;
 
 import de.fakeller.performance.analysis.AnalysisCapability;
 import de.fakeller.performance.analysis.PerformanceAnalyzer;
@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * This analyzer is an implementation of the approach presented by Guo et al. in 2012:
+ * This analyzer is an implementation of the approach presented by Guo et al. in 2013:
  * "Variability-Aware Performance Prediction: A Statistical Learning Approach"
  * <p>
  * The approach leverages decision trees to build a model using only a small set of training data. The model is then

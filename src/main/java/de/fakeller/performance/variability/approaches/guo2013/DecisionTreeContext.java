@@ -1,4 +1,4 @@
-package de.fakeller.performance.variability.approaches.guo2012;
+package de.fakeller.performance.variability.approaches.guo2013;
 
 import de.fakeller.performance.analysis.AnalysisContext;
 import de.fakeller.performance.analysis.PerformanceAnalyzer;
