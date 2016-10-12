@@ -39,7 +39,7 @@ public class DecisionTreeAnalyzerTest {
         final DecisionTreeAnalyzer<String, String> analyzer = new DecisionTreeAnalyzer<String, String>(new StubAnalyzer(data), res -> {
             final AttachedResult<String> result = (AttachedResult<String>) ((PerformanceResult<String>) res).getResults("result").toArray()[0];
             final DoubleMetric metric = (DoubleMetric) result.value();
-            return metric.getDouble();
+            return Optional.of(metric.getDouble());
         }, sc);
         final DecisionTreeContext<String, String> context = analyzer.setupAnalysis(
                 config -> config.toString(),

@@ -58,14 +58,15 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
         });
 
         // 2. map results with objective function
-        final Map<Configuration<FEATURE>, Double> scoredResults = results
+        final Map<Configuration<FEATURE>, Optional<Double>> scoredResults = results
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> this.objective.toObjective(e.getValue())));
 
         // 3. build decision tree
         final List<LabeledPoint> points = scoredResults.entrySet().stream()
-                .map(se -> new LabeledPoint(se.getValue(), this.configurationToVector(se.getKey())))
+                .filter(se -> se.getValue().isPresent())
+                .map(se -> new LabeledPoint(se.getValue().get(), this.configurationToVector(se.getKey())))
                 .collect(Collectors.toList());
         final JavaRDD<LabeledPoint> trainingData = this.sc.parallelize(points);
         final Map<Integer, Integer> categoricalFeaturesInfo = new HashMap<>();
@@ -90,6 +91,11 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
         return this.model;
     }
 
+    /**
+     * Uses the model generated during the analysis to predict performance scores for the given configurations.
+     * <p>
+     * The returned map associates a performance score to each configuration.
+     */
     public Map<Configuration<FEATURE>, Double> predict(final ConfigurationProvider<FEATURE> configurations) {
         final ArrayList<Configuration<FEATURE>> configs = new ArrayList<>();
         // generate prediction input from feature configuration
