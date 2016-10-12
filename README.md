@@ -20,7 +20,7 @@ Define a dependency to this project using [JitPack](https://jitpack.io/#DECLARE-
 <dependency>
     <groupId>com.github.DECLARE-Project</groupId>
     <artifactId>fastpan-variability-analyzer</artifactId>
-    <version>v0.0.1</version>
+    <version>v0.0.2</version>
 </dependency>
 ```
 
