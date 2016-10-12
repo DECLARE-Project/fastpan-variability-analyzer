@@ -7,5 +7,8 @@ This file keeps track of all changes to this project. This project follows [sema
 
 ## [UNRELEASED]
 
+
+## v0.0.1 - 2016-10-12
+
 ### Added
 - Implementation of the variability-aware performance prediction approach by Guo et al., 2012.
