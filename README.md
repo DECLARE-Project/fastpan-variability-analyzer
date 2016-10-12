@@ -1,4 +1,4 @@
-# fastpan-variability-analyzer
+# fastpan-variability-analyzer: statistical performance analysis for variability-aware software models 
 
 [![GitHub tag](https://img.shields.io/github/tag/DECLARE-Project/fastpan-variability-analyzer.svg?maxAge=30)](https://github.com/DECLARE-Project/fastpan-variability-analyzer/releases)
 [![Travis](https://img.shields.io/travis/DECLARE-Project/fastpan-variability-analyzer.svg?maxAge=30)](https://travis-ci.org/DECLARE-Project/fastpan-variability-analyzer)
@@ -7,19 +7,44 @@
 
 This project provides variability-aware performance analyzer implementations integrated with the [fastpan project](https://github.com/DECLARE-Project/fastpan) performance analyzer project.
 
-
-
 > **Attention:** This project is a work in progress and as such, the API is unstable and may change anytime. For recent changes refer to the change log.
 
 
 ## Installation
 
+### Using Maven
+
+Define a dependency to this project using [JitPack](https://jitpack.io/#DECLARE-Project/fastpan-variability-analyzer):
+
+```xml
+<dependency>
+    <groupId>com.github.DECLARE-Project</groupId>
+    <artifactId>fastpan-variability-analyzer</artifactId>
+    <version>v0.0.1</version>
+</dependency>
+```
+
+Make sure to define the JitPack repository: 
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+
+### Download a JAR
+
+Download the [latest release](https://github.com/DECLARE-Project/fastpan-variability-analyzer/releases/latest) from the GitHub releases.
+
+### From Source
+
 - Check out this project from source.
 - Hop on a shell and run `mvn clean install`. You may also do this from your favorite IDE.
-
-#### Export as Library:
-
-You may export this project as standalone JAR library including all required dependencies by running `mvn clean package`. The JAR file is then created in `/target/*.jar`.
+- You may export this project as standalone JAR library including all required dependencies by running `mvn clean package`. The JAR file is then created in `/target/*.jar`.
 
 
 ## Usage
@@ -57,6 +82,7 @@ Map<Configuration<FEATURE>, Double> predictions = ctx.predict(configurationProvi
 // access the model directly
 ctx.getModel();
 ```
+
 
 ## Release
 
