@@ -16,7 +16,6 @@ import org.apache.spark.mllib.tree.DecisionTree;
 import org.apache.spark.mllib.tree.model.DecisionTreeModel;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +30,7 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
     private final SystemProvider<SYSTEM, FEATURE> systemProvider;
     private final ConfigurationProvider<FEATURE> configurationProvider;
     private final PerformanceAnalyzer<SYSTEM, ? extends AnalysisContext<SYSTEM>> analyzer;
-    private final Function<PerformanceResult<?>, Double> objective;
+    private final DecisionTreeObjective objective;
     private final JavaSparkContext sc;
 
 
@@ -40,7 +39,7 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
     private DecisionTreeModel model;
 
 
-    public DecisionTreeContext(final SystemProvider<SYSTEM, FEATURE> systemProvider, final ConfigurationProvider<FEATURE> configurationProvider, final PerformanceAnalyzer analyzer, final Function<PerformanceResult<?>, Double> objective, final JavaSparkContext sc) {
+    public DecisionTreeContext(final SystemProvider<SYSTEM, FEATURE> systemProvider, final ConfigurationProvider<FEATURE> configurationProvider, final PerformanceAnalyzer analyzer, final DecisionTreeObjective objective, final JavaSparkContext sc) {
         this.systemProvider = systemProvider;
         this.configurationProvider = configurationProvider;
         this.analyzer = analyzer;
@@ -62,7 +61,7 @@ public class DecisionTreeContext<SYSTEM, FEATURE> implements VariabilityContext<
         final Map<Configuration<FEATURE>, Double> scoredResults = results
                 .entrySet()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> this.objective.apply(e.getValue())));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> this.objective.toObjective(e.getValue())));
 
         // 3. build decision tree
         final List<LabeledPoint> points = scoredResults.entrySet().stream()
