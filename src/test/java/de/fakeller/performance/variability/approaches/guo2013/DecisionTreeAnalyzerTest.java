@@ -6,8 +6,9 @@ import de.fakeller.performance.analysis.PerformanceAnalyzer;
 import de.fakeller.performance.analysis.result.AbstractPerformanceResult;
 import de.fakeller.performance.analysis.result.AttachedResult;
 import de.fakeller.performance.analysis.result.PerformanceResult;
-import de.fakeller.performance.analysis.result.metric.AbstractPerformanceMetric;
-import de.fakeller.performance.analysis.result.valueobject.ValueObject;
+import de.fakeller.performance.analysis.result.metric.DirectMetric;
+import de.fakeller.performance.analysis.result.quantity.PerformanceQuantity;
+import de.fakeller.performance.analysis.result.unit.Unitless;
 import de.fakeller.performance.variability.configuration.Configuration;
 import de.fakeller.performance.variability.configuration.ConfigurationProvider;
 import de.fakeller.performance.variability.feature.Feature;
@@ -38,8 +39,8 @@ public class DecisionTreeAnalyzerTest {
 
         final DecisionTreeAnalyzer<String, String> analyzer = new DecisionTreeAnalyzer<String, String>(new StubAnalyzer(data), res -> {
             final AttachedResult<String> result = (AttachedResult<String>) ((PerformanceResult<String>) res).getResults("result").toArray()[0];
-            final DoubleMetric metric = (DoubleMetric) result.value();
-            return Optional.of(metric.getDouble());
+            final DirectMetric metric = (DirectMetric) result.value();
+            return Optional.of(metric.getMetric().value());
         }, sc);
         final DecisionTreeContext<String, String> context = analyzer.setupAnalysis(
                 config -> config.toString(),
@@ -99,7 +100,7 @@ public class DecisionTreeAnalyzerTest {
         public PerformanceResult<String> analyze() {
             final AbstractPerformanceResult<String> res = new AbstractPerformanceResult<String>() {
             };
-            res.attach(new AttachedResult<String>("result", new DoubleMetric(new DoubleVO(this.data.performanceFor(this.system)))));
+            res.attach(new AttachedResult<>("result", new DirectMetric<>(new DoubleVO(this.data.performanceFor(this.system)))));
             return res;
         }
     }
@@ -169,7 +170,7 @@ public class DecisionTreeAnalyzerTest {
     }
 
 
-    class DoubleVO implements ValueObject {
+    class DoubleVO implements PerformanceQuantity<Unitless> {
 
         private final double val;
 
@@ -181,20 +182,21 @@ public class DecisionTreeAnalyzerTest {
         public String toHumanReadable() {
             return String.valueOf(this.val);
         }
-    }
 
-    class DoubleMetric extends AbstractPerformanceMetric<DoubleVO> {
-        public DoubleMetric(final DoubleVO value) {
-            super(value);
+
+        @Override
+        public double value() {
+            return this.val;
         }
 
         @Override
-        protected String getHumanReadableDescription() {
-            return "DoubleMetric::" + this.value.toHumanReadable();
+        public Unitless unit() {
+            return Unitless.UNITLESS;
         }
 
-        public double getDouble() {
-            return this.value.val;
+        @Override
+        public PerformanceQuantity wrap(final double v, final Unitless unitless) {
+            return new DoubleVO(v);
         }
     }
 }
