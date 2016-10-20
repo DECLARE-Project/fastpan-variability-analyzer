@@ -8,6 +8,12 @@ This file keeps track of all changes to this project. This project follows [sema
 ## [UNRELEASED]
 
 
+## v0.0.4 - 2016-10-20
+
+### Changed
+- A JAR with dependencies is now deployed to GitHub releases.
+
+
 ## v0.0.3 - 2016-10-20
 
 ### Changed

@@ -10,15 +10,15 @@ after_success:
 # deploy to github releases
 before_deploy:
 - ls
-- export FASTPAN_FILE=$(ls target/*.jar)
-- echo "Deploying the following files to GitHub releases "
-- echo "- $FASTPAN_FILE"
+- ls target/
+- echo "Deploying to GitHub releases "
 deploy:
   provider: releases
   api_key:
     secure: YUpLq0bj8BYmSdwNhs40Ybi1xcMdwjICwJ9GWQK6vo2cLDKSTXEjEeRJeDouUNu8mCJmPetwYa64gaHW7YzNvNBED0KRkhFDsfEs8Mt1DdKCz572szxWbGzMjxK8UK1ex2GplA2+USQ2T55N5WxbUWBWTpK1bMH0itX0AK97nNIA2yIzB+R/usNui+4dGSoDS/1NwOaHnD+gF6LdruIogl8723zTByFXcE9t++anUKNJ8tcEvoDFBRTowbGUOowG7KvVQqUag5KO9gi9KrxD3QPIg552CTZWisNAWtl7GYQ+hYAAwUgOQ6jaONbfwfhnfmaP3GYWBEHLsDrsCn4c7nMHQDLLq4e/E9kHCoYDdRa8X+DM+4dEnBpJ1BZuswcBb0WVPve3TV5aS4Hz5wS6V6WMwzDthbbQILX2uDKgLPVhsLlFacMxksdFlFHHa0bzG1kucphg/TAca1G8jkAGdsNpQfr7g093Hv6lU9q+4PAilVe11EAdWr5t3+3MTgePW4HFbdFWG/MoCsFArMp6fG1NSjaS6GW4+6sIZ0dZk7FCWlV3duq4eeQ2Z+/kqVrD8gteROUJS9gsdypJt2aVBwg8/x6xOW8lU9X+2h3fEDqNUCSvC5GdhcC+E9yWeivLLglXitoaiwZ+bB+2nryCRw9UPsvRmhEE93E5RmRzW78=
+  file_glob: true
   file:
-    - "${FASTPAN_FILE}"
+    - "target/*.jar"
   skip_cleanup: true
   on:
     repo: DECLARE-Project/fastpan-variability-analyzer
